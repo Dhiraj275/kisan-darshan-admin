@@ -1,25 +1,32 @@
-import logo from './logo.svg';
+import { Redirect } from 'react-router-dom';
+import { useState } from 'react';
 import './App.css';
-
+import firebase from './firebase';
+import AdminPanel from './Pages/AdminPanel';
+import Login from './Pages/Login';
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [firebaseUserData, setFirebaseUserData] = useState(null)
+
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      setFirebaseUserData(user)
+    }
+    else {
+      setFirebaseUserData(undefined)
+    }
+  })
+  if (firebaseUserData === undefined) {
+    return (
+      <>
+        <Login />
+        <Redirect to="/" />
+      </>
+    )
+
+  }
+  else {
+    return <AdminPanel />
+  }
 }
 
 export default App;
