@@ -30,7 +30,7 @@ function SecondMenu(props) {
                 <div className="right">
 
                     <div className="view-site">
-                        <NavLink to="/">View site <i className="fa fa-external-link-alt"></i></NavLink>
+                        <a target="_blank" href="http://www.ekisandarshan.in/">View site <i className="fa fa-external-link-alt"></i></a>
                     </div>
                 </div>
             </div>

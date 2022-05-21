@@ -20,27 +20,18 @@ function LoginPage() {
                 setOtpStates(false)
                 Swal.fire("User Verified Successfully!", '', 'success').then(() => {
                     var uid = result.user.uid
+                    if (
+                        uid === "dc2JVlLuLzfuNi94IjRBxGG7hem2"
+                        ||
+                        uid === "YLGjAyIswISqUYaJDdhlTtr1IWF2"
+                        ||
+                        uid === "1AjGbYpS7oYRJDLHEyis7Pv4WLm2"
+                      ){
 
-                    async function getData() {
-                        const sfRef = await firebase.firestore().collection("users").doc(uid).get()
-                        setUserData(sfRef.data())
-                        window.location.replace('/')
-                    }
-                    getData().then(() => {
-                        console.log(userData)
-                        if (userData !== null) {
-                            if (userData === undefined) {
-                                window.location.replace('/register')
-                                window.location.reload()
-                            }
-                            else {
-                                window.location.replace('/profile')
-                            }
-                        }
-                        else {
-                            getData()
-                        }
-                    })
+                      }
+                      else{
+                          Swal.fire("You are not authorized Admin.", "" , "error")
+                      }
 
                 })
             }).catch((error) => {

@@ -4,6 +4,7 @@ import './App.css';
 import firebase from './firebase';
 import AdminPanel from './Pages/AdminPanel';
 import Login from './Pages/Login';
+import Swal from 'sweetalert2';
 function App() {
   const [firebaseUserData, setFirebaseUserData] = useState(null)
 
@@ -25,7 +26,30 @@ function App() {
 
   }
   else {
-    return <AdminPanel />
+    if (firebaseUserData !== null) {
+      if (
+        firebaseUserData.uid === "dc2JVlLuLzfuNi94IjRBxGG7hem2"
+        ||
+        firebaseUserData.uid === "YLGjAyIswISqUYaJDdhlTtr1IWF2"
+        ||
+        firebaseUserData.uid === "1AjGbYpS7oYRJDLHEyis7Pv4WLm2"
+      ) {
+        return <AdminPanel />
+      }
+      else {
+        Swal.fire("You are not authorized Admin.", "" , "error")
+        return (
+          <>
+            <Login />
+            <Redirect to="/" />
+          </>
+        )
+      }
+    }
+    else {
+      console.log(firebaseUserData)
+      return ""
+    }
   }
 }
 

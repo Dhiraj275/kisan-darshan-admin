@@ -8,6 +8,9 @@ import EditItemDetail from './EditItemDetail';
 import Poll from './Poll';
 import UserData from './UserData';
 import AddItem from './AddItems';
+import ManageOrders from './ManageOrder';
+import AddCrops from './AddCrops';
+import ItemsToVerify from './ItemToVerify';
 // import Login from './Login';
 function AdminPanel() {
     return (
@@ -20,7 +23,10 @@ function AdminPanel() {
                 <Route exact path="/edit-categories" component={EditCategories} />
                 <Route exact path="/add-item" component={AddItem} />
                 <Route exact path="/polls" component={Poll} />
+                <Route exact path="/manage-orders" component={ManageOrders} />
+                <Route exact path="/add-crops" component={AddCrops} />
                 <Route exact path="/edit-item-detail" component={EditItemDetail} />
+                <Route exact path="/items-to-verify" component={ItemsToVerify} />
             </Switch>
         </>
     )

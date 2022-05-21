@@ -12,14 +12,13 @@ function UserData() {
     const remove = new Audio(deleteSfx)
     const loadData = () => {
         async function getData() {
-            const events = await firebase.firestore().collection('users')
-            events.get().then((querySnapshot) => {
-                const tempDoc = []
-                querySnapshot.forEach((doc) => {
-                    tempDoc.push({ id: doc.id, ...doc.data() })
-                })
-                setData(tempDoc)
-                console.log(tempDoc)
+            firebase.database().ref('users/').on('value', (snapshot) => {
+                const rawUserData = []
+                var snapVal = snapshot.val();
+                for (let id in snapVal){
+                    rawUserData.push({...snapVal[id], id:id})
+                }
+                setData(rawUserData)
             })
         }
         getData()
@@ -45,10 +44,12 @@ function UserData() {
                                         <tr>
                                             <th>Sr No.</th>
                                             <th>Name</th>
+                                            <th>User Type</th>
                                             <th>Phone No.</th>
                                             <th>Email</th>
                                             <th>State</th>
                                             <th>District</th>
+                                            <th>Address</th>
                                             <th className="text-center">Opration</th>
                                         </tr>
                                     </thead>

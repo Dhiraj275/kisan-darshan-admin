@@ -62,7 +62,7 @@ function ManageItems() {
                             {
                                 cateList.map((item, index)=>{
                                     return(
-                                        <option value={item.categorieName}>{item.categorieName}</option>
+                                        <option key={index} value={item.categorieName}>{item.categorieName}</option>
                                     )
                                 })
                             }
@@ -79,7 +79,7 @@ function ManageItems() {
                                         <tr>
                                             <th>Sr No.</th>
                                             <th>Name</th>
-                                            <th>Varient.</th>
+                                            <th>Quantity.</th>
                                             <th>Categorie</th>
                                             <th>Price.</th>
                                             <th className="text-center">Opration</th>
@@ -90,7 +90,7 @@ function ManageItems() {
                                         {
                                             filterData.map((list, index) => {
                                                 return (
-                                                    <ItemsTr key={index} category={category}  list={list} index={index} />
+                                                    <ItemsTr key={index} category={category} cateList={cateList}  list={list} index={index} />
                                                 )
                                             })
                                         }

@@ -15,7 +15,7 @@ function UserTR(props) {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it'
         }).then(() => {
-            const item  = firebase.database().ref('contact-form/').child(list.id)
+            const item  = firebase.database().ref('users/').child(list.userId)
             item.remove()
                 .then(() => {
                     Swal.fire(
@@ -27,15 +27,18 @@ function UserTR(props) {
 
         })
     }
+
+    console.log(list)
     return (
-        <tr key={props.index + 6}>
+        <tr key={props.index}>
             <td>{props.index +1}</td>
             <td>{list.name}</td>
+            <td>{list.userType}</td>
             <td>{list.phone}</td>
             <td>{list.email}</td>
-            <td>{list.address}</td>
-            <td>{list.district}</td>
             <td>{list.state}</td>
+            <td>{list.district}</td>
+            <td>{list.address}</td>
             <td className="text-center">
                 <i onClick={deleteItem} style={{ cursor: 'pointer', margin: '0 5px' }} className="fa fa-trash text-danger"></i>
             </td>

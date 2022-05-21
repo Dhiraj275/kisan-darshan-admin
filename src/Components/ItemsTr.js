@@ -30,16 +30,16 @@ function ItemsTr(props) {
             <tr key={props.index + 6}>
                 <td>{props.index + 1}</td>
                 <td>{props.list.name}</td>
-                <td>{props.list.varient}</td>
-                <td>{props.list.categorieName}</td>
+                <td>{props.list.quantity}</td>
+                <td>{props.list.category}</td>
                 <td>&#8377; {props.list.price}</td>
                 <td key={props.index + 5} className="text-center">
                     <i onClick={deleteItem} style={{ cursor: 'pointer', margin: '0 5px' }} className="fa fa-trash text-danger"></i>
                     <Link
                         to={{
                             pathname: '/edit-item-detail',
-                            search: `?id=${props.list.id}&name=${props.list.name}&category=${props.list.categorieName}&price=${props.list.price}&varient=${props.list.varient}`,
-                            state: { fromDashboard: true }
+                            // search: `?id=${props.list.id}&name=${props.list.name}&category=${props.list.categorieName}&price=${props.list.price}&varient=${props.list.varient}`,
+                            state: { data: props.list, category: props.cateList }
                         }
                         }
                     ><i style={{ cursor: 'pointer', margin: '0 5px' }} className="fa fa-edit text-success"></i></Link>
@@ -49,20 +49,20 @@ function ItemsTr(props) {
     }
     else {
         return (
-            props.category !== props.list.categorieName ? '' :
-                <tr key={props.index + 6}>
+            props.category !== props.list.category ? '' :
+                <tr key={props.index}>
                     <td>{props.index + 1}</td>
                     <td>{props.list.name}</td>
-                    <td>{props.list.varient}</td>
-                    <td>{props.list.categorieName}</td>
+                    <td>{props.list.quantity}</td>
+                    <td>{props.list.category}</td>
                     <td>&#8377; {props.list.price}</td>
                     <td key={props.index + 5} className="text-center">
                         <i onClick={deleteItem} style={{ cursor: 'pointer', margin: '0 5px' }} className="fa fa-trash text-danger"></i>
                         <Link
                             to={{
                                 pathname: '/edit-item-detail',
-                                search: `?id=${props.list.id}&name=${props.list.name}&category=${props.list.categorieName}&price=${props.list.price}&varient=${props.list.varient}`,
-                                state: { fromDashboard: true }
+                                // search: `?id=${props.list.id}&name=${props.list.name}&category=${props.list.categorieName}&price=${props.list.price}&varient=${props.list.varient}`,
+                                state: { data: props.list, category: props.cateList }
                             }
                             }
                         ><i style={{ cursor: 'pointer', margin: '0 5px' }} className="fa fa-edit text-success"></i></Link>
