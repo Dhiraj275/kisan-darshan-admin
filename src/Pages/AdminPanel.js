@@ -11,6 +11,8 @@ import AddItem from './AddItems';
 import ManageOrders from './ManageOrder';
 import AddCrops from './AddCrops';
 import ItemsToVerify from './ItemToVerify';
+import ContactMails from './ContactMail';
+import ManageCrop from './ManageCrop';
 // import Login from './Login';
 function AdminPanel() {
     return (
@@ -25,8 +27,11 @@ function AdminPanel() {
                 <Route exact path="/polls" component={Poll} />
                 <Route exact path="/manage-orders" component={ManageOrders} />
                 <Route exact path="/add-crops" component={AddCrops} />
+                <Route exact path="/contact-mails" component={ContactMails} />
                 <Route exact path="/edit-item-detail" component={EditItemDetail} />
                 <Route exact path="/items-to-verify" component={ItemsToVerify} />
+                <Route exact path="/manage-crops-and-item" component={ManageCrop} />
+
             </Switch>
         </>
     )

@@ -2,29 +2,29 @@ import React, { useState } from 'react'
 import SlideMenu from '../Components/SlideMenu'
 import SecondMenu from '../Components/SecondMenu'
 import firebase from '../firebase'
+// import VideosTr from '../Components/UserTR'
 import { NavLink } from 'react-router-dom'
 import notify from '../audio/notify.wav'
 import deleteSfx from '../audio/delete.mp3'
-import UserTR from '../Components/UserTR'
-function UserData() {
+function ContactMails() {
     const [data, setData] = useState([]);
     const audio = new Audio(notify)
     const remove = new Audio(deleteSfx)
     const loadData = () => {
-        async function getData() {
-            firebase.database().ref('users/').on('value', (snapshot) => {
-                const rawUserData = []
-                var snapVal = snapshot.val();
-                for (let id in snapVal){
-                    rawUserData.push({...snapVal[id], id:id})
-                }
-                setData(rawUserData)
-            })
-        }
-        getData()
+        firebase.database().ref('contactMail/').on('value', (snapshot) => {
+            var snapVal = snapshot.val();
+            const fatched = [];
+            for (let id in snapVal) {
+                fatched.push({ id: id, ...snapVal[id] })
+
+                setData(fatched)
+
+            }
+
+        })
     }
-    // firebase.database().ref('contact-form/').on('child_added', ()=>audio.play())
-    // firebase.database().ref('contact-form/').on('child_removed', ()=>remove.play())
+    firebase.database().ref('timingPoll/').on('child_added', () => audio.play())
+    firebase.database().ref('timingPoll/').on('child_removed', () => remove.play())
     return (
         <>
 
@@ -35,7 +35,8 @@ function UserData() {
                         <SecondMenu title="Manage orders" url="/orders" />
                         <div className="container smart-card">
                             <div className="d-flex justify-content-between align-items-center">
-                                <h4 className="title">All Users</h4>
+                                <h4 className="title">All Categories</h4>
+                                <NavLink to='/upload-video' ><button className="btn btn-primary">Upload Videos <i className="fa fa-upload"></i></button></NavLink>
                             </div>
 
                             <div className="table-responsive">
@@ -44,13 +45,11 @@ function UserData() {
                                         <tr>
                                             <th>Sr No.</th>
                                             <th>Name</th>
-                                            <th>User Type</th>
-                                            <th>Phone No.</th>
-                                            <th>Email</th>
-                                            <th>State</th>
-                                            <th>District</th>
+                                            <th>eMail</th>
                                             <th>Address</th>
-                                            <th colSpan={2} className="text-center">Opration</th>
+                                            <th>Subject</th>
+                                            <th>Message</th>
+                                            <th className="text-center">Opration</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -60,7 +59,17 @@ function UserData() {
                                             data.map((list, index) => {
                                                 console.log(list)
                                                 return (
-                                                    <UserTR index={index} list={list} />
+                                                    <tr key={index + 6}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{list.name}</td>
+                                                        <td>{list.phone}</td>
+                                                        <td>{list.address}</td>
+                                                        <td>{list.subject}</td>
+                                                        <td>{list.message}</td>
+                                                        <td className="text-center">
+                                                            <i style={{ cursor: 'pointer', margin: '0 5px' }} className="fa fa-trash text-danger"></i>
+                                                        </td>
+                                                    </tr>
                                                 )
                                             })
                                         }
@@ -77,4 +86,4 @@ function UserData() {
     )
 }
 
-export default UserData
+export default ContactMails

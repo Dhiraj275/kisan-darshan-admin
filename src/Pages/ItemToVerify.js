@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SlideMenu from '../Components/SlideMenu'
 import SecondMenu from '../Components/SecondMenu'
 import firebase from '../firebase'
@@ -51,18 +51,17 @@ function ItemsToVerify() {
                     <div className="main-child">
 
                         <SecondMenu title="Manage Items" url="/manage-items" />
-                        <div className="container smart-card">
-                            <tbody>
+                        <div className="container card-wrap">
 
-                                {
-                                    itemList.map((list, index) => {
-                                        return (
-                                            <ProductCard key={index} category={category} user={user} list={list} index={index} />
-                                        )
-                                    })
-                                }
 
-                            </tbody>
+                            {
+                                itemList.map((list, index) => {
+                                    return (
+                                        <ProductCard key={index} category={category} user={user} list={list} index={index} />
+                                    )
+                                })
+                            }
+
                         </div>
 
                     </div>
@@ -74,6 +73,11 @@ function ItemsToVerify() {
 }
 
 const ProductCard = (props) => {
+    const [currentQuantity, setCurrentQuantity] = useState(1)
+    const [isAdding, setIsAdding] = useState(false)
+    const [sellerAdd, setSellerAdd] = useState([])
+    // const navigate = navigator()
+
     const itemData = props.list
     const yes = () => {
         var propList = props.list
@@ -94,6 +98,12 @@ const ProductCard = (props) => {
         })
 
     }
+    useEffect(() => {
+        firebase.database().ref('users/').child(itemData.sellerUID).on('value', (snapshot) => {
+            setSellerAdd(snapshot.val());
+        })
+    }, [])
+
     const discrad = async () => {
         var propList = props.list
 
@@ -104,17 +114,20 @@ const ProductCard = (props) => {
             inputOptions: {
                 img: 'Image is not proper',
                 price: 'Over priced',
+                certificate: 'Certificate Number Invalid',
+                description: 'Description is Wrong',
+
             },
             inputPlaceholder: 'Select a reason for Rejection',
             showCancelButton: true,
-            
+
         })
-        
+
         if (reason) {
             const itemData = {
-            ...propList,
-            reason: reason
-        }
+                ...propList,
+                reason: reason
+            }
             firebase.database().ref("/users").child(propList.sellerUID).child("item_rejected").push(itemData).then(() => {
                 firebase.database().ref("/item-to-verify").child(propList.id).remove()
             })
@@ -123,23 +136,51 @@ const ProductCard = (props) => {
 
 
     }
+    const showDetial = () => {
+        delete sellerAdd.farmerData
+        delete sellerAdd.product_for_sell
+        delete sellerAdd.item_rejected
+        // delete sellerAdd.phone
+        delete sellerAdd.cart
+        // delete sellerAdd.email
+        // delete sellerAdd.userId
+        // delete sellerAdd.address
+        delete sellerAdd.orders
+        delete sellerAdd.cooperateData
+
+
+        const theDetial = () => {
+            var detail = ""
+            Object.keys(sellerAdd).map((col) => { detail = detail + `${col}: ${sellerAdd[col]} <br>` })
+            return detail
+        }
+
+        Swal.fire("The detail", `<div class="text-left">${theDetial()}</div>`, "info")
+    }
     return (
-        <div key={`arrayElement${props.index}`} className="card products">
-            <div className="img-box" >
-                <img loading="lazy" className="card-img-top img-fluid" src={itemData.imgUrl} alt="Card image cap" />
-            </div>
-            <div className="card-body">
-                <h5 className="card-title">{itemData.cropName}</h5>
-                <h5 className="card-title">{itemData.category}</h5>
-                <p className="price">&#8377;{itemData.price}</p>
+        <>
+            <div class="product">
+                <div className="img-box-pro">
+                    <img onClick={showDetial} src={itemData.imgUrl} alt="wheat" class="pro-img" />
+                    {
+                        itemData.organic === "yes" && <><div className="green-box"></div></>
+                    }
+                </div>
+                <div class="pro-detail">
+                    <h3 class="pro-name">{itemData.name}</h3>
+                    <h3 class="pro-price"> ₹ {itemData.price} / {itemData.unit}</h3>
+                    {
+                        itemData.organic === "yes" && <><h3 class="pro-name">Organic Certi No. :{itemData.certificateNo}</h3></>
+                    }
+                    <p class="pro-desc"> <i className="fa fa-map-marker-alt"></i> {sellerAdd.district}, {sellerAdd.state}</p>
+                </div>
                 <div className="d-flex justify-content-evenly">
                     <div onClick={yes} className="btn btn-success"><i className="fa fa-check"></i></div>
                     <div onClick={discrad} className="btn btn-danger"><i className="fa fa-times"></i></div>
                 </div>
-                <br />
-
             </div>
-        </div>
+
+        </>
     )
 }
 export default ItemsToVerify

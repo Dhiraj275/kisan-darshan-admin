@@ -20,7 +20,10 @@ function SlideMenu() {
                         <li><NavLink activeClassName="navigation-active" exact to="/manage-orders"><i className="fa fa-edit"></i>Manage Orders</NavLink></li>
                         <li><NavLink activeClassName="navigation-active" exact to="/edit-categories"><i className="fa fa-edit"></i>Edit Categories </NavLink></li>
                         <li><NavLink activeClassName="navigation-active" exact to="/"><i className="fa fa-globe"></i>Languages</NavLink></li>
+                        <li><NavLink activeClassName="navigation-active" exact to="/contact-mails"><i class="fa fa-envelope"></i>Contact Mails</NavLink></li>
                         <li><NavLink activeClassName="navigation-active" exact to="/items-to-verify"><i className="fa fa-shapes"></i>Items to verify</NavLink></li>
+                        <li><NavLink activeClassName="navigation-active" exact to="/manage-crops-and-item"><i className="fa fa-edit"></i>Manage Crops &amp; Items</NavLink></li>
+
                     </ul>
                 </div>
             </div>
